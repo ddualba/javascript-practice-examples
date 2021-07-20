@@ -80,7 +80,11 @@ app.post('/signin', async (req, res) => {
   }
 
   // check password
-  if (user.password !== password) {
+  const validPassword = await usersRepo.comparePassword(
+    user.password,
+    password
+  );
+  if (!validPassword) {
     return res.send('Invalid password');
   }
 
